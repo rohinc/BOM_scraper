@@ -29,7 +29,7 @@ def getStations():
     weather_stat = pd.read_csv("station_list.csv")
     weather_stat = weather_stat.rename(columns={"STA":"state"})
 
-    #filter for only QLD stations
+    #*** update this command for any other state from the station_list.csv file***#
     qld_stations = weather_stat[(weather_stat.state == 'QLD')]
 
     #filter on active stations
@@ -60,17 +60,21 @@ def getData(data):
         driver = webdriver.Chrome(executable_path=chromedriver, chrome_options=chromeOptions)
 
         #navigate to BOM through webdriver
+        #*** update as per desired website name ***#
         driver.get("http://www.bom.gov.au/climate/data/")
 
         #selecting option from dropdown for Rainfall
+        #*** update this variable with relevent element_id for required information ***#
         data_about = Select(driver.find_element_by_id('ncc_obs_code_group'))
         data_about.select_by_value('2')
 
         #choose Daily data
+        #*** choose the type of data you are after, daily or monthly ***#
         daily_rainfall = driver.find_element_by_id('dt1')
         daily_rainfall.click()
 
         #navigate to station Id text box
+        #*** choose the correct text box to navigate to ***#
         station_id = driver.find_element_by_id('p_stn_num').send_keys(i)
 
     # station_id.click()
